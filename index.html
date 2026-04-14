@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Study Hub</title>
+    <style>
+        /* Modern UI Styling */
+        :root {
+            --primary: #6366f1; --bg: #f3f4f6; --card-bg: #ffffff;
+            --text: #1f2937; --text-sec: #6b7280; --radius: 12px;
+        }
+        body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        header { max-width: 1000px; margin: 0 auto 30px; display: flex; justify-content: space-between; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: var(--radius); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: 0.2s; position: relative; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .badge { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; color: var(--primary); background: #eef2ff; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
+        .card p { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 20px; height: 40px; overflow: hidden; }
+        .btn { display: block; width: 100%; text-align: center; background: var(--primary); color: white; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; transition: 0.2s; }
+        .btn:hover { background: #4f46e5; }
+        
+        /* Modal for Add (Guidance only) */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 15px; max-width: 400px; text-align: center; }
+        .close-btn { background: #eee; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+        .fab { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: var(--primary); color: white; border: none; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📚 My Study Hub</h1>
+        <div id="counter" style="color: var(--text-sec)">Loading...</div>
+    </header>
+
+    <div class="grid" id="linksGrid">
+        </div>
+
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h2>🛠️ How to Add Links</h2>
+            <p>Because this is hosted on GitHub, you must add links directly in the code so they stay saved for everyone.</p>
+            <ol style="text-align: left; font-size: 0.9rem; line-height: 1.6;">
+                <li>Go to your GitHub repository.</li>
+                <li>Edit this <b>index.html</b> file.</li>
+                <li>Add your link to the <b>links</b> array at the top of the script.</li>
+                <li>Commit changes!</li>
+            </ol>
+            <button class="close-btn" onclick="toggleModal()">Got it!</button>
+        </div>
+    </div>
+
+    <button class="fab" onclick="toggleModal()">➕</button>
+
+    <script>
+        /** * EDIT YOUR LINKS HERE 
+         * To add a new one, just copy a block and change the details.
+         **/
+        const links = [
+            {
+                title: "ChatGPT",
+                url: "https://chat.openai.com",
+                description: "Personal AI tutor for complex topics.",
+                category: "General"
+            },
+            {
+                title: "Khan Academy",
+                url: "https://www.khanacademy.org",
+                description: "Free courses in math, science, and more.",
+                category: "Math"
+            },
+            {
+                title: "WolframAlpha",
+                url: "https://www.wolframalpha.com",
+                description: "Compute expert-level answers and algorithms.",
+                category: "Science"
+            },
+            // --- ADD YOUR NEW LINK BELOW THIS LINE ---
+            {
+                title: "My New Resource",
+                url: "https://google.com",
+                description: "Description of the link goes here.",
+                category: "Research"
+            }
+        ];
+
+        // Function to display the links
+        function renderLinks() {
+            const grid = document.getElementById('linksGrid');
+            const counter = document.getElementById('counter');
+            
+            grid.innerHTML = '';
+            counter.innerText = `${links.length} Resources Available`;
+
+            links.forEach(link => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <span class="badge">${link.category}</span>
+                    <h3>${link.title}</h3>
+                    <p>${link.description}</p>
+                    <a href="${link.url}" target="_blank" class="btn">Open Resource</a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleModal() {
+            document.getElementById('addModal').classList.toggle('active');
+        }
+
+        // Initialize
+        renderLinks();
+    </script>
+</body>
+</html>
